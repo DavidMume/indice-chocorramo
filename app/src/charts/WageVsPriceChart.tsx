@@ -42,7 +42,7 @@ const CustomTooltip = ({
 }
 
 export default function WageVsPriceChart({ countryData }: Props) {
-  const { profile, snapshots, calculations } = countryData
+  const { profile, calculations } = countryData
 
   const data = [
     {
