@@ -1,0 +1,5 @@
+country,country_name,year,product_name,currency,wage_period,min_wage,product_price,products_purchasable,cpi_base_2016,nominal_wage_growth_pct,product_price_growth_pct,purchasing_power_change_pct,accumulated_inflation_pct
+colombia,Colombia,2016,Chocorramo,COP,monthly,689455.0,1100.0,626.78,100.0,,,,
+colombia,Colombia,2026,Chocorramo,COP,monthly,1750905.0,3200.0,547.16,172.02,153.93,190.91,-12.7,72.02
+australia,Australia,2016,Meat Pie,AUD,weekly,672.7,4.8,140.15,100.0,,,,
+australia,Australia,2026,Meat Pie,AUD,weekly,915.9,6.8,134.69,132.2,36.16,41.67,-3.89,32.2

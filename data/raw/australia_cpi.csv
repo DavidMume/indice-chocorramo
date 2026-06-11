@@ -1,0 +1,23 @@
+country,year,variable,value,currency,source_name,source_url,source_type,confidence,needs_verification,notes
+australia,2016,annual_inflation_pct,1.30,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,"ABS CPI All Groups Australia. Variación anual promedio 2016. Fuente: ABS Cat. 6401.0. Nota: ABS publica CPI trimestral; el valor anual es promedio de los 4 trimestres o variación Q4-Q4."
+australia,2016,cpi_base2016,100.0,INDEX,ABS — CPI base 2016=100 (calculado para este proyecto),https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,Índice relativo con base en 2016=100. Calculado para este proyecto a partir de variaciones anuales del ABS.
+australia,2017,annual_inflation_pct,1.90,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,CPI variación anual promedio 2017.
+australia,2017,cpi_base2016,101.90,INDEX,ABS — calculado,https://www.abs.gov.au/,official,high,false,Índice acumulado base 2016=100.
+australia,2018,annual_inflation_pct,1.90,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,CPI variación anual promedio 2018.
+australia,2018,cpi_base2016,103.83,INDEX,ABS — calculado,https://www.abs.gov.au/,official,high,false,Índice acumulado base 2016=100.
+australia,2019,annual_inflation_pct,1.60,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,CPI variación anual promedio 2019.
+australia,2019,cpi_base2016,105.49,INDEX,ABS — calculado,https://www.abs.gov.au/,official,high,false,Índice acumulado base 2016=100.
+australia,2020,annual_inflation_pct,0.85,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,CPI variación anual promedio 2020. Muy baja por COVID-19 (trimestre negativo Q2).
+australia,2020,cpi_base2016,106.39,INDEX,ABS — calculado,https://www.abs.gov.au/,official,high,false,Índice acumulado base 2016=100.
+australia,2021,annual_inflation_pct,2.86,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,CPI variación anual 2021. Inicio de ciclo inflacionario post-COVID.
+australia,2021,cpi_base2016,109.43,INDEX,ABS — calculado,https://www.abs.gov.au/,official,high,false,Índice acumulado base 2016=100.
+australia,2022,annual_inflation_pct,6.60,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,CPI variación anual 2022. Máximo en 30+ años en Australia.
+australia,2022,cpi_base2016,116.66,INDEX,ABS — calculado,https://www.abs.gov.au/,official,high,false,Índice acumulado base 2016=100.
+australia,2023,annual_inflation_pct,4.10,PCT,ABS — Consumer Price Index Australia,https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,high,false,CPI variación anual 2023. Desaceleración tras pico de 2022.
+australia,2023,cpi_base2016,121.45,INDEX,ABS — calculado,https://www.abs.gov.au/,official,high,false,Índice acumulado base 2016=100.
+australia,2024,annual_inflation_pct,3.20,PCT,ABS — Consumer Price Index Australia (estimado),https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia,official,medium,true,CPI 2024 estimado. Verificar con publicaciones definitivas del ABS para Q4 2024 / año completo 2024.
+australia,2024,cpi_base2016,125.34,INDEX,ABS — calculado (estimado),https://www.abs.gov.au/,official,medium,true,Índice acumulado estimado base 2016=100.
+australia,2025,annual_inflation_pct,2.80,PCT,Estimación — pendiente publicación ABS,https://www.abs.gov.au/,estimate,low,true,CPI 2025 estimado. PENDIENTE de dato oficial del ABS. Basado en proyecciones del RBA.
+australia,2025,cpi_base2016,128.85,INDEX,Estimación — calculado,https://www.abs.gov.au/,estimate,low,true,Índice estimado base 2016=100.
+australia,2026,annual_inflation_pct,2.60,PCT,Estimación — pendiente publicación ABS,https://www.abs.gov.au/,estimate,low,true,CPI 2026 estimado. PENDIENTE. Actualizar con dato oficial del ABS.
+australia,2026,cpi_base2016,132.20,INDEX,Estimación — calculado,https://www.abs.gov.au/,estimate,low,true,Índice acumulado estimado base 2016=100 para 2026. Verificar con ABS cuando publique datos.

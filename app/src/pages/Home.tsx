@@ -1,0 +1,25 @@
+import Header from '../components/Header'
+import HeroSection from '../components/HeroSection'
+import ConceptExplainer from '../components/ConceptExplainer'
+import CountrySection from '../components/CountrySection'
+import MethodologySection from '../components/MethodologySection'
+import SourcesSection from '../components/SourcesSection'
+import Footer from '../components/Footer'
+import { indexData } from '../data'
+
+export default function Home() {
+  return (
+    <div className="min-h-screen">
+      <Header />
+      <main>
+        <HeroSection />
+        <ConceptExplainer />
+        <CountrySection countryData={indexData.countries.colombia} />
+        <CountrySection countryData={indexData.countries.australia} />
+        <MethodologySection />
+        <SourcesSection />
+      </main>
+      <Footer />
+    </div>
+  )
+}

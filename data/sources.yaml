@@ -1,0 +1,147 @@
+# sources.yaml
+# Catálogo completo de fuentes del Índice Chocorramo.
+# Cada fuente tiene un ID único para referencias cruzadas.
+#
+# source_type: official | retail | media | estimate | user_provided
+# confidence:  high | medium | low
+
+sources:
+
+  # ─── Colombia — Salario Mínimo ────────────────────────────────────────────────
+  - id: co_minwage_2016
+    country: colombia
+    name: "Decreto 2552 de 2015 — Presidencia de Colombia"
+    url: "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=73804"
+    type: official
+    confidence: high
+    variables: [min_wage_monthly]
+    years: [2016]
+    notes: >
+      Decreto del 30 de diciembre de 2015 que fija salario mínimo para 2016 en $689.455 COP.
+      Emitido por el Ministerio del Trabajo / Presidencia de la República.
+
+  - id: co_minwage_2026
+    country: colombia
+    name: "Decreto salarial 2025 — Presidencia de Colombia"
+    url: "https://www.funcionpublica.gov.co/"
+    type: official
+    confidence: high
+    variables: [min_wage_monthly]
+    years: [2026]
+    notes: >
+      Decreto de diciembre 2025 que fija salario mínimo para 2026 en $1.750.905 COP.
+      Verificar número de decreto en el Diario Oficial / Función Pública.
+
+  # ─── Colombia — IPC / Inflación ───────────────────────────────────────────────
+  - id: co_dane_ipc
+    country: colombia
+    name: "DANE — Índice de Precios al Consumidor (IPC)"
+    url: "https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc"
+    type: official
+    confidence: high
+    variables: [annual_inflation_pct, cpi_base2016]
+    years: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+    notes: >
+      Fuente primaria para inflación en Colombia. Serie IPC total nacional,
+      variación anual (diciembre vs diciembre anterior). Base oficial DANE: diciembre 2018=100.
+      En este proyecto se recalcula con base 2016=100 para simplificar la comparación.
+      Datos 2024-2026 son estimaciones pendientes de verificación con DANE.
+    access_instructions: >
+      Descargar desde https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc
+      → "Histórico variación del IPC" → descargar Excel.
+      También disponible vía API: https://www.dane.gov.co/index.php/servicios/api-dane
+
+  # ─── Colombia — Precio Chocorramo ─────────────────────────────────────────────
+  - id: co_chocorramo_price_user
+    country: colombia
+    name: "Reporte del usuario del proyecto"
+    url: "N/A"
+    type: user_provided
+    confidence: low
+    variables: [chocorramo_unit_price]
+    years: [2016, 2026]
+    needs_verification: true
+    notes: >
+      ADVERTENCIA: Este precio NO es un dato oficial. Proviene del reporte del usuario
+      del proyecto. No debe presentarse como dato estadístico verificable.
+      Para verificar: (1) consultar el SIPSA (Sistema de Información de Precios y Abastecimiento
+      del Sector Agropecuario) del DANE para alimentos procesados; (2) buscar en prensa colombiana
+      artículos sobre el precio del Chocorramo; (3) consultar precio actual en retailers como
+      Éxito, Jumbo, D1, Justo & Bueno, Ara.
+    pending_verification_steps:
+      - "Buscar 'precio Chocorramo 2016' en prensa colombiana (Portafolio, La República, El Tiempo)"
+      - "Consultar SIPSA-DANE para snacks/galletería"
+      - "Verificar precio actual (2026) en tienda física o app de supermercado"
+
+  # ─── Australia — Salario Mínimo ───────────────────────────────────────────────
+  - id: au_fwc_minwage_2016
+    country: australia
+    name: "Fair Work Commission — National Minimum Wage Order 2016"
+    url: "https://www.fwc.gov.au/agreements-awards/pay-and-conditions/minimum-wages/minimum-wage-orders/national-minimum-wage-order-2016"
+    type: official
+    confidence: high
+    variables: [min_wage_weekly, min_wage_hourly]
+    years: [2016]
+    notes: >
+      National Minimum Wage Order 2016. Vigente desde 1 de julio de 2016.
+      $672.70/semana, $17.70/hora para trabajador adulto full-time.
+      Emitido por Fair Work Commission bajo Fair Work Act 2009.
+
+  - id: au_fwc_minwage_2024
+    country: australia
+    name: "Fair Work Commission — National Minimum Wage Order 2024"
+    url: "https://www.fwc.gov.au/agreements-awards/pay-and-conditions/minimum-wages/minimum-wage-orders"
+    type: official
+    confidence: high
+    variables: [min_wage_weekly, min_wage_hourly]
+    years: [2024, 2025]
+    needs_verification: true
+    notes: >
+      National Minimum Wage Order 2024. $915.90/semana, $24.10/hora.
+      Vigente desde 1 julio 2024. Se usa como proxy para 2026 hasta verificar
+      el NMW Order 2025 (publicado por FWC alrededor de junio 2025).
+      Verificar: https://www.fwc.gov.au/agreements-awards/pay-and-conditions/minimum-wages
+
+  # ─── Australia — CPI ──────────────────────────────────────────────────────────
+  - id: au_abs_cpi
+    country: australia
+    name: "Australian Bureau of Statistics — Consumer Price Index, Australia"
+    url: "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia"
+    type: official
+    confidence: high
+    variables: [annual_inflation_pct, cpi_base2016]
+    years: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+    notes: >
+      Fuente primaria para inflación en Australia. ABS Cat. 6401.0.
+      CPI All Groups, promedio anual o variación Q4 vs Q4.
+      Datos 2024-2026 son estimaciones; verificar con ABS publicaciones trimestrales.
+    access_instructions: >
+      https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia
+      → "Download data" → CPI All Groups Australia quarterly series.
+
+  # ─── Australia — Precio Meat Pie ──────────────────────────────────────────────
+  - id: au_meatpie_price_estimate
+    country: australia
+    name: "Estimación — precio representativo de bakeries y retailers australianos"
+    url: "https://www.woolworths.com.au/"
+    type: estimate
+    confidence: low
+    variables: [meat_pie_unit_price]
+    years: [2016, 2026]
+    needs_verification: true
+    notes: >
+      ADVERTENCIA: No existe una fuente oficial para el precio del meat pie en Australia.
+      Este es un precio representativo estimado. Los precios varían significativamente:
+      - Bakery artesanal: AUD $5–$9
+      - Canteen escolar/deportiva: AUD $3–$6
+      - Supermercado (frozen): AUD $2.50–$5 (por unidad en paquete)
+      - 7-Eleven / servo: AUD $4–$7
+      Para verificar: (1) buscar prensa australiana sobre precios de comida típica en 2016;
+      (2) revisar menús de Pie Face u otras cadenas australianas; (3) consultar precio
+      actual en Woolworths, Coles, Aldi (frozen meat pies); (4) encuestar directamente
+      en bakeries populares de Sydney/Melbourne.
+    pending_verification_steps:
+      - "Buscar 'meat pie price Australia 2016' en SMH, The Australian"
+      - "Ver si ABS Food Price Survey incluye meat pies"
+      - "Revisar Woolworths.com.au precio actual de frozen party pies / individual pies"
+      - "Consultar menu de Woolworths Deli / bakery in-store prices 2026"

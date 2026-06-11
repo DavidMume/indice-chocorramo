@@ -1,0 +1,13 @@
+country,year,variable,value,currency,source_name,source_url,source_type,confidence,needs_verification,notes
+colombia,2016,min_wage_monthly,689455,COP,Decreto 2552 de 2015 — Presidencia de Colombia,https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=73804,official,high,false,Salario mínimo mensual legal vigente 2016. Decreto 2552 del 30 de diciembre de 2015.
+colombia,2016,min_wage_daily,22982,COP,Decreto 2552 de 2015 — Presidencia de Colombia,https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=73804,official,high,false,Calculado como salario mensual / 30 días.
+colombia,2017,min_wage_monthly,737717,COP,Decreto 2209 de 2016 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2017.
+colombia,2018,min_wage_monthly,781242,COP,Decreto 2269 de 2017 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2018.
+colombia,2019,min_wage_monthly,828116,COP,Decreto 2452 de 2018 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2019.
+colombia,2020,min_wage_monthly,877803,COP,Decreto 2360 de 2019 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2020.
+colombia,2021,min_wage_monthly,908526,COP,Decreto 1785 de 2020 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2021.
+colombia,2022,min_wage_monthly,1000000,COP,Decreto 1724 de 2021 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2022. Primer año en llegar a $1.000.000.
+colombia,2023,min_wage_monthly,1160000,COP,Decreto 2613 de 2022 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2023. Aumento del 16%.
+colombia,2024,min_wage_monthly,1300000,COP,Decreto 2281 de 2023 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2024.
+colombia,2025,min_wage_monthly,1423500,COP,Decreto salarial 2024 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,true,Valor pendiente de confirmación con decreto exacto 2024.
+colombia,2026,min_wage_monthly,1750905,COP,Decreto salarial 2025 — Presidencia de Colombia,https://www.funcionpublica.gov.co/,official,high,false,Salario mínimo mensual legal vigente 2026 según decreto de diciembre 2025.

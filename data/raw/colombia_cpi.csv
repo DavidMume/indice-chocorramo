@@ -1,0 +1,23 @@
+country,year,variable,value,currency,source_name,source_url,source_type,confidence,needs_verification,notes
+colombia,2016,annual_inflation_pct,5.75,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia diciembre 2016 vs diciembre 2015.
+colombia,2016,cpi_base2016,100.0,INDEX,DANE — IPC base 2016=100 (calculado),https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Índice relativo con base en año 2016=100. Calculado para este proyecto.
+colombia,2017,annual_inflation_pct,4.09,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia 2017.
+colombia,2017,cpi_base2016,104.09,INDEX,DANE — calculado,https://www.dane.gov.co/,official,high,false,Índice acumulado base 2016=100.
+colombia,2018,annual_inflation_pct,3.18,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia 2018.
+colombia,2018,cpi_base2016,107.40,INDEX,DANE — calculado,https://www.dane.gov.co/,official,high,false,Índice acumulado base 2016=100.
+colombia,2019,annual_inflation_pct,3.80,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia 2019.
+colombia,2019,cpi_base2016,111.48,INDEX,DANE — calculado,https://www.dane.gov.co/,official,high,false,Índice acumulado base 2016=100.
+colombia,2020,annual_inflation_pct,1.61,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia 2020. Mínimo histórico por COVID-19.
+colombia,2020,cpi_base2016,113.27,INDEX,DANE — calculado,https://www.dane.gov.co/,official,high,false,Índice acumulado base 2016=100.
+colombia,2021,annual_inflation_pct,5.62,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia 2021. Inicio de ciclo inflacionario post-COVID.
+colombia,2021,cpi_base2016,119.64,INDEX,DANE — calculado,https://www.dane.gov.co/,official,high,false,Índice acumulado base 2016=100.
+colombia,2022,annual_inflation_pct,13.12,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia 2022. Máximo en 20+ años.
+colombia,2022,cpi_base2016,135.33,INDEX,DANE — calculado,https://www.dane.gov.co/,official,high,false,Índice acumulado base 2016=100.
+colombia,2023,annual_inflation_pct,9.28,PCT,DANE — IPC variación anual,https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,high,false,Inflación IPC total nacional Colombia 2023.
+colombia,2023,cpi_base2016,147.88,INDEX,DANE — calculado,https://www.dane.gov.co/,official,high,false,Índice acumulado base 2016=100.
+colombia,2024,annual_inflation_pct,5.20,PCT,DANE — IPC variación anual (estimado),https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc,official,medium,true,Inflación 2024 estimada. Verificar con DANE publicación definitiva.
+colombia,2024,cpi_base2016,155.57,INDEX,DANE — calculado (estimado),https://www.dane.gov.co/,official,medium,true,Índice acumulado base 2016=100. Estimado con inflación ~5.2%.
+colombia,2025,annual_inflation_pct,5.00,PCT,Estimación — pendiente publicación DANE,https://www.dane.gov.co/,estimate,low,true,Inflación 2025 estimada. Pendiente de dato oficial del DANE.
+colombia,2025,cpi_base2016,163.35,INDEX,Estimación — calculado,https://www.dane.gov.co/,estimate,low,true,Índice estimado base 2016=100. Calculado con inflación ~5.0% estimada para 2025.
+colombia,2026,annual_inflation_pct,5.30,PCT,Estimación — pendiente publicación DANE,https://www.dane.gov.co/,estimate,low,true,"Inflación 2026 estimada para cierre de año. PENDIENTE. Actualizar con dato oficial del DANE cuando esté disponible."
+colombia,2026,cpi_base2016,172.02,INDEX,Estimación — calculado,https://www.dane.gov.co/,estimate,low,true,"Índice acumulado estimado base 2016=100 para 2026. Calculado encadenando inflaciones anuales. PENDIENTE verificación con DANE."

@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "generated_at": "2026-06-11",
+    "generated_by": "scripts/build_index.py",
+    "version": "0.1.0",
+    "base_year": 2016,
+    "current_year": 2026,
+    "description": "Índice de poder adquisitivo medido en unidades de producto cotidiano."
+  },
+  "countries": {
+    "colombia": {
+      "profile": {
+        "id": "colombia",
+        "name": "Colombia",
+        "flag": "🇨🇴",
+        "product_name": "Chocorramo",
+        "product_emoji": "🍫",
+        "currency": "COP",
+        "currency_symbol": "$",
+        "wage_period": "monthly",
+        "wage_period_label_es": "mes"
+      },
+      "snapshots": {
+        "2016": {
+          "year": 2016,
+          "min_wage": 689455,
+          "product_price": 1100,
+          "products_purchasable": 626.78,
+          "cpi_base_2016": 100.0,
+          "needs_verification": ["product_price"],
+          "notes": "Salario mínimo oficial (Decreto 2552/2015). Precio Chocorramo estimado — pendiente verificación."
+        },
+        "2026": {
+          "year": 2026,
+          "min_wage": 1750905,
+          "product_price": 3200,
+          "products_purchasable": 547.16,
+          "cpi_base_2016": 172.02,
+          "needs_verification": ["product_price", "cpi_base_2016"],
+          "notes": "Salario mínimo oficial. Precio Chocorramo estimado. IPC acumulado estimado — verificar con DANE."
+        }
+      },
+      "calculations": {
+        "nominal_wage_growth_pct": 153.93,
+        "product_price_growth_pct": 190.91,
+        "purchasing_power_change_pct": -12.70,
+        "accumulated_inflation_pct": 72.02,
+        "real_wage_change_pct": 47.65,
+        "base_year": 2016,
+        "current_year": 2026
+      }
+    },
+    "australia": {
+      "profile": {
+        "id": "australia",
+        "name": "Australia",
+        "flag": "🇦🇺",
+        "product_name": "Meat Pie",
+        "product_emoji": "🥧",
+        "currency": "AUD",
+        "currency_symbol": "A$",
+        "wage_period": "weekly",
+        "wage_period_label_es": "semana"
+      },
+      "snapshots": {
+        "2016": {
+          "year": 2016,
+          "min_wage": 672.70,
+          "product_price": 4.80,
+          "products_purchasable": 140.15,
+          "cpi_base_2016": 100.0,
+          "needs_verification": ["product_price"],
+          "notes": "Salario mínimo oficial FY2016-17 (Fair Work Commission). Precio meat pie estimado — precio representativo, no oficial."
+        },
+        "2026": {
+          "year": 2026,
+          "min_wage": 915.90,
+          "product_price": 6.80,
+          "products_purchasable": 134.69,
+          "cpi_base_2016": 132.20,
+          "needs_verification": ["min_wage", "product_price", "cpi_base_2016"],
+          "notes": "Salario mínimo FY2024-25 usado como proxy para 2026 — verificar con Fair Work Commission. Precio meat pie estimado. IPC estimado."
+        }
+      },
+      "calculations": {
+        "nominal_wage_growth_pct": 36.16,
+        "product_price_growth_pct": 41.67,
+        "purchasing_power_change_pct": -3.89,
+        "accumulated_inflation_pct": 32.20,
+        "real_wage_change_pct": 2.99,
+        "base_year": 2016,
+        "current_year": 2026
+      }
+    }
+  }
+}
