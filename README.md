@@ -1,8 +1,18 @@
 # Índice Chocorramo
 
-**Una forma sencilla de entender inflación y poder adquisitivo.**
+**Una forma sencilla de entender inflación y poder adquisitivo / A simple way to understand inflation and purchasing power.**
 
 Este proyecto compara cuántos productos populares se podían comprar con un salario mínimo en distintos años, usando Colombia (🍫 Chocorramo) y Australia (🥧 meat pie) como casos de estudio.
+
+La aplicación es completamente bilingüe (ES/EN). El selector cambia todo el contenido sin recargar la página y guarda la preferencia en `localStorage`.
+
+## Contenido, traducciones y datos
+
+- Todo el texto visible en español e inglés vive en `app/src/i18n/translations.ts`.
+- El estado de idioma y la persistencia en `localStorage["indice-chocorramo-language"]` viven en `app/src/i18n/LanguageContext.tsx`.
+- Para editar una traducción, cambia la misma clave dentro de `es` y `en`; no cambies cifras entre idiomas.
+- Los valores que consume la interfaz viven en `app/src/data/index.ts`. Ese archivo conserva salarios, precios, IPC y cálculos separados del texto de la interfaz.
+- Los datos fuente versionados viven en `data/raw/*.csv`; los resultados del procesamiento, en `data/processed/`.
 
 ## ¿Qué mide?
 
@@ -59,8 +69,10 @@ indice-chocorramo/
 cd app
 npm install
 npm run dev
-# Abre http://localhost:5173
+npm run build
 ```
+
+Vite muestra la URL local (normalmente `http://localhost:5173`) y genera el build de producción en `app/dist/`.
 
 ### Procesamiento de datos
 
@@ -70,6 +82,16 @@ python scripts/build_index.py
 ```
 
 El script lee `data/raw/*.csv`, calcula el índice y escribe `data/processed/purchasing_power_index.json`. Los datos procesados ya están incluidos en el repo, no es necesario correr el script para ver la app.
+
+### Actualizar los datos sin rediseñar la página
+
+1. Actualiza las filas correspondientes en `data/raw/*.csv`, conservando el schema documentado abajo.
+2. Documenta o corrige las fuentes en `data/sources.yaml`.
+3. Ejecuta `python scripts/build_index.py` desde la raíz del repositorio.
+4. Sincroniza el resultado validado con `app/src/data/index.ts` si el script no lo hace automáticamente.
+5. Ejecuta `cd app && npm run build` para comprobar tipos y generar el sitio.
+
+Los componentes y las traducciones no necesitan cambios cuando solo cambian valores.
 
 ### Build para producción
 
@@ -81,11 +103,22 @@ npm run build
 
 ## Deploy en Cloudflare Pages
 
-1. Conecta el repo en [pages.cloudflare.com](https://pages.cloudflare.com).
-2. Configura:
-   - **Build command:** `cd app && npm ci && npm run build`
-   - **Build output directory:** `app/dist`
-   - **Root directory:** `/` (raíz del repo)
+1. Conecta el repositorio en Cloudflare Pages.
+2. Configura **Root directory** como `app`.
+3. Usa **Build command:** `npm run build`.
+4. Usa **Build output directory:** `dist`.
+5. Usa Node.js 20 o posterior y despliega.
+
+Si prefieres mantener la raíz del repositorio como directorio de trabajo, usa `cd app && npm run build` y `app/dist`; ambas configuraciones producen el mismo sitio.
+
+## Añadir el proyecto al portafolio principal
+
+El portafolio usa `src/data/projects.js` como índice reutilizable. Añade o actualiza el objeto con `slug: 'chocorramo-index'`, completa sus campos bilingües (`title`, `subtitle`, `description`, `date`, `category`, `status` y `collection`) y agrega `tags`, `technologies`, `liveUrl`, `repoUrl` y `articleUrl` cuando exista. La colección debe ser:
+
+- ES: `Análisis públicos con datos`
+- EN: `Public analysis with data`
+
+Después, desde la raíz del portafolio, ejecuta `npm install`, `npm run dev` y `npm run build`.
 
 ## Schema de datos
 

@@ -1,4 +1,7 @@
+import { useLanguage } from '../i18n/LanguageContext'
+
 export default function Footer() {
+  const { t } = useLanguage()
   return (
     <footer className="bg-gray-900 text-gray-400 py-10 px-4">
       <div className="max-w-5xl mx-auto">
@@ -6,15 +9,15 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">🍫</span>
-              <span className="font-bold text-white">Índice Chocorramo</span>
+              <span className="font-bold text-white">{t.hero.title}</span>
             </div>
             <p className="text-sm">
-              Proyecto educativo de código abierto. MIT License.
+              {t.footer.educational}
             </p>
           </div>
           <div className="text-sm space-y-1">
             <p>
-              Datos:{' '}
+              {t.footer.data}{' '}
               <a href="https://www.dane.gov.co/" className="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
                 DANE
               </a>
@@ -28,7 +31,7 @@ export default function Footer() {
               </a>
             </p>
             <p className="text-gray-500">
-              Los precios de productos son estimaciones, no datos oficiales.
+              {t.footer.estimate}
             </p>
           </div>
         </div>

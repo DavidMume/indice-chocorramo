@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import type { CountryIndex } from '../types'
 import { BASE_YEAR, CURRENT_YEAR } from '../data'
+import { useLanguage } from '../i18n/LanguageContext'
 
 interface Props {
   countryData: CountryIndex
@@ -20,10 +21,12 @@ const CustomTooltip = ({
   active,
   payload,
   label,
+  baseLabel,
 }: {
   active?: boolean
   payload?: Array<{ name: string; value: number; color: string }>
   label?: string
+  baseLabel: string
 }) => {
   if (!active || !payload?.length) return null
   return (
@@ -35,27 +38,26 @@ const CustomTooltip = ({
         </p>
       ))}
       {label === CURRENT_YEAR.toString() && (
-        <p className="text-gray-400 text-xs mt-1">Base 2016 = 100</p>
+        <p className="text-gray-400 text-xs mt-1">{baseLabel}</p>
       )}
     </div>
   )
 }
 
 export default function WageVsPriceChart({ countryData }: Props) {
+  const { t } = useLanguage()
   const { profile, calculations } = countryData
 
   const data = [
     {
       year: BASE_YEAR.toString(),
-      Salario: 100,
-      Precio: 100,
-      IPC: 100,
+      [t.chart.wage]: 100, [t.chart.price]: 100, [t.chart.cpi]: 100,
     },
     {
       year: CURRENT_YEAR.toString(),
-      Salario: 100 + calculations.nominalWageGrowthPct,
-      Precio: 100 + calculations.productPriceGrowthPct,
-      IPC: 100 + calculations.accumulatedInflationPct,
+      [t.chart.wage]: 100 + calculations.nominalWageGrowthPct,
+      [t.chart.price]: 100 + calculations.productPriceGrowthPct,
+      [t.chart.cpi]: 100 + calculations.accumulatedInflationPct,
     },
   ]
 
@@ -81,16 +83,16 @@ export default function WageVsPriceChart({ countryData }: Props) {
           domain={[80, 'auto']}
         />
         <ReferenceLine y={100} stroke="#e5e7eb" strokeDasharray="4 4" />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip baseLabel={t.chart.base} />} />
         <Legend
           wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
           formatter={(value) =>
-            value === 'Precio' ? `Precio ${profile.productName}` : value
+            value === t.chart.price ? `${t.chart.price} ${profile.productName}` : value
           }
         />
         <Line
           type="monotone"
-          dataKey="Salario"
+          dataKey={t.chart.wage}
           stroke={wageColor}
           strokeWidth={2.5}
           dot={{ r: 5, fill: wageColor }}
@@ -98,7 +100,7 @@ export default function WageVsPriceChart({ countryData }: Props) {
         />
         <Line
           type="monotone"
-          dataKey="Precio"
+          dataKey={t.chart.price}
           stroke={priceColor}
           strokeWidth={2.5}
           dot={{ r: 5, fill: priceColor }}
@@ -106,7 +108,7 @@ export default function WageVsPriceChart({ countryData }: Props) {
         />
         <Line
           type="monotone"
-          dataKey="IPC"
+          dataKey={t.chart.cpi}
           stroke={ipcColor}
           strokeWidth={1.5}
           strokeDasharray="5 5"

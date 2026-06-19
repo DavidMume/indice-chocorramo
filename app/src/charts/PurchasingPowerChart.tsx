@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import type { CountryIndex } from '../types'
 import { BASE_YEAR, CURRENT_YEAR } from '../data'
+import { useLanguage } from '../i18n/LanguageContext'
 
 interface Props {
   countryData: CountryIndex
@@ -22,19 +23,21 @@ const CustomTooltip = ({
   label,
   productName,
   wagePeriod,
+  locale,
 }: {
   active?: boolean
   payload?: Array<{ value: number }>
   label?: string
   productName: string
   wagePeriod: string
+  locale: string
 }) => {
   if (!active || !payload?.length) return null
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
       <p className="font-semibold text-gray-900 mb-1">{label}</p>
       <p className="text-gray-600">
-        {Math.floor(payload[0].value).toLocaleString('es-CO')}{' '}
+        {Math.floor(payload[0].value).toLocaleString(locale)}{' '}
         {productName}s / {wagePeriod}
       </p>
     </div>
@@ -42,6 +45,7 @@ const CustomTooltip = ({
 }
 
 export default function PurchasingPowerChart({ countryData }: Props) {
+  const { language, t } = useLanguage()
   const { profile, snapshots } = countryData
 
   const data = [
@@ -79,7 +83,8 @@ export default function PurchasingPowerChart({ countryData }: Props) {
           content={
             <CustomTooltip
               productName={profile.productName}
-              wagePeriod={profile.wagePeriodLabel}
+              wagePeriod={profile.wagePeriod === 'monthly' ? t.profile.month : t.profile.week}
+              locale={language === 'es' ? 'es-CO' : 'en-AU'}
             />
           }
         />
@@ -87,7 +92,7 @@ export default function PurchasingPowerChart({ countryData }: Props) {
           <LabelList
             dataKey="value"
             position="top"
-            formatter={(v: number) => Math.floor(v).toLocaleString('es-CO')}
+            formatter={(v: number) => Math.floor(v).toLocaleString(language === 'es' ? 'es-CO' : 'en-AU')}
             style={{ fontSize: 12, fontWeight: 700 }}
           />
           {data.map((_, index) => (

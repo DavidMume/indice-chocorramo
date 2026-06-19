@@ -3,6 +3,7 @@ import { BASE_YEAR, CURRENT_YEAR } from '../data'
 import ComparisonCards from './ComparisonCards'
 import PurchasingPowerChart from '../charts/PurchasingPowerChart'
 import WageVsPriceChart from '../charts/WageVsPriceChart'
+import { useLanguage } from '../i18n/LanguageContext'
 
 interface CountrySectionProps {
   countryData: CountryIndex
@@ -10,6 +11,8 @@ interface CountrySectionProps {
 
 export default function CountrySection({ countryData }: CountrySectionProps) {
   const { profile } = countryData
+  const { t } = useLanguage()
+  const period = profile.wagePeriod === 'monthly' ? t.profile.month : t.profile.week
 
   const bgStyle =
     profile.id === 'colombia'
@@ -25,11 +28,11 @@ export default function CountrySection({ countryData }: CountrySectionProps) {
             <h2 className="text-3xl font-extrabold text-gray-900">{profile.name}</h2>
           </div>
           <p className="text-gray-600 text-lg">
-            Producto de referencia:{' '}
+            {t.country.reference}{' '}
             <span className="font-semibold">
               {profile.productEmoji} {profile.productName}
             </span>
-            {' '}— salario mínimo por {profile.wagePeriodLabel} en {profile.currency}
+            {' '}— {t.country.wage} {period} {t.country.inCurrency} {profile.currency}
           </p>
         </div>
 
@@ -42,20 +45,20 @@ export default function CountrySection({ countryData }: CountrySectionProps) {
         <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <h3 className="font-bold text-gray-800 mb-1">
-              {profile.productEmoji} Comprables por {profile.wagePeriodLabel}
+              {profile.productEmoji} {t.country.purchasableTitle} {period}
             </h3>
             <p className="text-xs text-gray-500 mb-4">
-              ¿Cuántos {profile.productName}s podías comprar con el salario mínimo?
+              {t.country.purchasableQuestion.replace('{product}', profile.productName)}
             </p>
             <PurchasingPowerChart countryData={countryData} />
           </div>
 
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <h3 className="font-bold text-gray-800 mb-1">
-              Salario vs precio (índice 2016=100)
+              {t.country.indexTitle}
             </h3>
             <p className="text-xs text-gray-500 mb-4">
-              Si ambas líneas empiezan en 100, ¿cuál creció más?
+              {t.country.indexQuestion}
             </p>
             <WageVsPriceChart countryData={countryData} />
           </div>
