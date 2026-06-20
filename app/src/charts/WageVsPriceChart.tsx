@@ -76,16 +76,16 @@ export default function WageVsPriceChart({ countryData }: Props) {
           tickLine={false}
         />
         <YAxis
-          tick={{ fontSize: 11 }}
+          tick={{ fontSize: 10 }}
           axisLine={false}
           tickLine={false}
-          width={50}
+          width={44}
           domain={[80, 'auto']}
         />
         <ReferenceLine y={100} stroke="#e5e7eb" strokeDasharray="4 4" />
         <Tooltip content={<CustomTooltip baseLabel={t.chart.base} />} />
         <Legend
-          wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
+          wrapperStyle={{ fontSize: 11, paddingTop: 6 }}
           formatter={(value) =>
             value === t.chart.price ? `${t.chart.price} ${profile.productName}` : value
           }

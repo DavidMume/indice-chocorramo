@@ -24,9 +24,9 @@ export default function MethodologySection() {
     'real_wage = nominal_wage / (relative_CPI / 100)',
   ]
   return (
-    <section id="metodologia" className="py-16 px-4 bg-white">
+    <section id="metodologia" className="py-10 sm:py-16 px-4 bg-white">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-2">{t.methodology.title}</h2>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">{t.methodology.title}</h2>
         <p className="text-gray-500 mb-10 max-w-2xl">
           {t.methodology.intro}
         </p>

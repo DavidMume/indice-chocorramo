@@ -20,12 +20,12 @@ export default function CountrySection({ countryData }: CountrySectionProps) {
       : 'bg-gradient-to-br from-blue-50 to-red-50'
 
   return (
-    <section id={profile.id} className={`py-16 px-4 ${bgStyle}`}>
+    <section id={profile.id} className={`py-10 sm:py-16 px-4 ${bgStyle}`}>
       <div className="max-w-5xl mx-auto">
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-4xl">{profile.flag}</span>
-            <h2 className="text-3xl font-extrabold text-gray-900">{profile.name}</h2>
+            <span className="text-3xl sm:text-4xl">{profile.flag}</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{profile.name}</h2>
           </div>
           <p className="text-gray-600 text-lg">
             {t.country.reference}{' '}
@@ -42,22 +42,22 @@ export default function CountrySection({ countryData }: CountrySectionProps) {
           currentYear={CURRENT_YEAR}
         />
 
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h3 className="font-bold text-gray-800 mb-1">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 overflow-hidden">
+            <h3 className="font-bold text-gray-800 text-sm sm:text-base mb-1">
               {profile.productEmoji} {t.country.purchasableTitle} {period}
             </h3>
-            <p className="text-xs text-gray-500 mb-4">
+            <p className="text-xs text-gray-500 mb-3 sm:mb-4">
               {t.country.purchasableQuestion.replace('{product}', profile.productName)}
             </p>
             <PurchasingPowerChart countryData={countryData} />
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h3 className="font-bold text-gray-800 mb-1">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 overflow-hidden">
+            <h3 className="font-bold text-gray-800 text-sm sm:text-base mb-1">
               {t.country.indexTitle}
             </h3>
-            <p className="text-xs text-gray-500 mb-4">
+            <p className="text-xs text-gray-500 mb-3 sm:mb-4">
               {t.country.indexQuestion}
             </p>
             <WageVsPriceChart countryData={countryData} />

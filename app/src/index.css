@@ -375,3 +375,29 @@
 body {
   overflow-x: hidden;
 }
+
+/* Mobile: prevent any element from breaking the horizontal layout */
+@media (max-width: 640px) {
+  .original-story-visual,
+  .original-comparison,
+  .original-money-stack,
+  .original-choco-stack,
+  .original-facts {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Methodology formulas: horizontal scroll on mobile */
+  code {
+    font-size: 0.72rem;
+    white-space: pre;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Concept cards: tighter padding */
+  .rounded-2xl {
+    border-radius: 12px;
+  }
+}

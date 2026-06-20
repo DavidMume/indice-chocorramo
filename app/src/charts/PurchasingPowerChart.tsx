@@ -74,10 +74,10 @@ export default function PurchasingPowerChart({ countryData }: Props) {
           tickLine={false}
         />
         <YAxis
-          tick={{ fontSize: 11 }}
+          tick={{ fontSize: 10 }}
           axisLine={false}
           tickLine={false}
-          width={50}
+          width={44}
         />
         <Tooltip
           content={
