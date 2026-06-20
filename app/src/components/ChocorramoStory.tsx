@@ -51,6 +51,12 @@ function ChocoStack({ units, locale }: { units: number; locale: string }) {
 const MIN_YEAR = 2011
 const MAX_YEAR = 2026
 
+function getPresidentImage(year: number): string {
+  if (year <= 2017) return '/assets/president-santos.png'
+  if (year <= 2022) return '/assets/president-duque.png'
+  return '/assets/president-petro.png'
+}
+
 export default function ChocorramoStory() {
   const { language, t: globalT } = useLanguage()
   const t = originalStoryCopy(language)
@@ -163,16 +169,30 @@ export default function ChocorramoStory() {
         {/* ── Contexto histórico del año seleccionado ──────── */}
         {step && (
           <div className="story-context-card">
-            <div className="story-context-header">
-              <span className="original-eyebrow">{t.economicContext} · {year}</span>
-              <p className="story-context-title">{step[0]}</p>
+            <div className="story-context-inner">
+              {/* President portrait — decorative, no-bg PNG */}
+              <div className="story-president-img" aria-hidden="true">
+                <img
+                  src={getPresidentImage(year)}
+                  alt={step[4]}
+                  className="story-president-photo"
+                  loading="lazy"
+                />
+              </div>
+              {/* Context text */}
+              <div className="story-context-body">
+                <div className="story-context-header">
+                  <span className="original-eyebrow">{t.economicContext} · {year}</span>
+                  <p className="story-context-title">{step[0]}</p>
+                </div>
+                <p className="story-context-desc">{step[1]}</p>
+                <div className="story-context-econ">
+                  <strong>{step[2]}</strong>
+                  <p>{step[3]}</p>
+                </div>
+                <span className="story-context-president">{step[4]}</span>
+              </div>
             </div>
-            <p className="story-context-desc">{step[1]}</p>
-            <div className="story-context-econ">
-              <strong>{step[2]}</strong>
-              <p>{step[3]}</p>
-            </div>
-            <span className="story-context-president">{step[4]}</span>
           </div>
         )}
       </div>
