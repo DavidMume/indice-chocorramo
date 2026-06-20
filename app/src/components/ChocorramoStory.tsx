@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
 import { originalStoryCopy } from '../i18n/originalStoryTranslations'
 
@@ -48,26 +48,142 @@ function ChocoStack({ units, locale }: { units: number; locale: string }) {
   return <div className="original-choco-stack" title={`≈ ${Math.round(units).toLocaleString(locale)}`}>{Array.from({length:visible},(_,index)=><img key={index} src="/assets/chocorramo-product-mini.png" alt="" loading="lazy" style={{'--x':`${(index*47+index*index*3)%255}px`,'--y':`${72-((index*19+index*index)%70)}px`,'--turn':`${((index*17)%25)-12}deg`,'--layer':index} as CSSProperties}/>)}</div>
 }
 
+const MIN_YEAR = 2011
+const MAX_YEAR = 2026
+
 export default function ChocorramoStory() {
-  const { language, t: globalT } = useLanguage(); const t = originalStoryCopy(language); const locale = language === 'es' ? 'es-CO' : 'en-US'
-  const [rows,setRows] = useState<Row[]>([]); const [year,setYear] = useState(2011); const [anchor2016,setAnchor2016] = useState(1100); const [anchor2026,setAnchor2026] = useState(3500)
-  const refs = useRef<Array<HTMLElement|null>>([]); const points = useMemo(()=>scenario(rows,anchor2016,anchor2026),[rows,anchor2016,anchor2026]); const point = points.find((item)=>item.year===year)
-  useEffect(()=>{ fetch('/data/observations-v2.csv').then((response)=>response.text()).then((text)=>setRows(csvToObjects(text))) },[])
-  useEffect(()=>{ const observer=new IntersectionObserver((entries)=>{ const current=entries.filter((entry)=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0]; if(current)setYear(Number((current.target as HTMLElement).dataset.year))},{rootMargin:'-35% 0px -45% 0px',threshold:[0,.25,.6]}); refs.current.forEach((step)=>step&&observer.observe(step)); return()=>observer.disconnect() },[rows])
-  const moneyUnits = point ? 100000/point.estimatedPrice : 0; const inflation=yearly(rows,'inflation',year); const unemployment=yearly(rows,'unemployment_rate',year); const informal=yearly(rows,'informal_share',year)
-  const formatMoney=(value:number)=>`$${Math.round(value).toLocaleString(locale)}`; const formatPct=(value:number|null)=>value===null?t.noData:`${value.toLocaleString(locale,{maximumFractionDigits:2})}%`
-  return <section className="original-story" id="historia" aria-labelledby="original-story-title">
-    <div className="original-shell original-story-heading"><p className="original-eyebrow">{t.storyEyebrow}</p><h2 id="original-story-title">{t.storyTitle}</h2><p>{t.storyIntro}</p>
-      <aside className="original-warning"><strong>{t.warningTitle}</strong> {t.warning}</aside><aside className="original-warning context"><strong>{t.contextTitle}</strong> {t.context}</aside>
-      <p className="original-context-sources">{t.sources} <a href="https://ustr.gov/trade-agreements/free-trade-agreements/colombia-tpa">TLC Colombia–EE. UU.</a>, <a href="https://www.jep.gov.co/Marco%20Normativo/Normativa_v2/01%20ACUERDOS/N01.pdf">Acuerdo Final de Paz</a>, <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/cuentas-nacionales/cuentas-nacionales-trimestrales/historicos-producto-interno-bruto-pib">PIB del DANE</a>.</p>
-    </div>
-    <div className="original-story-layout original-shell">
-      <div className="original-story-visual" aria-live="polite"><div className="original-story-top"><div><p>{t.selected}</p><strong>{year}</strong></div><div className="original-price-controls"><label>{t.anchor2016}<span><b>$</b><input aria-label={t.anchor2016} type="number" value={anchor2016} onChange={(e)=>setAnchor2016(Number(e.target.value)||1100)}/></span></label><label>{t.anchor2026}<span><b>$</b><input aria-label={t.anchor2026} type="number" value={anchor2026} onChange={(e)=>setAnchor2026(Number(e.target.value)||3500)}/></span></label></div></div>
-        {point&&<><div className="original-comparison"><div className="original-money-side"><div><p>{t.salary}</p><strong>{formatMoney(point.salary)}</strong></div><MoneyStack salary={point.salary} locale={locale}/></div><div className="original-equals">=</div><div className="original-choco-result"><strong>{Math.round(point.units).toLocaleString(locale)}</strong><span>{t.units}</span><ChocoStack units={point.units} locale={locale}/><p>{t.usedPrice} <strong>{formatMoney(point.estimatedPrice)}</strong> <small>{point.status==='anchor'?t.anchor:t.estimated}</small></p></div></div>
-        <div className="original-facts"><div><span>{t.inflation}</span><strong>{formatPct(inflation)}</strong></div><div><span>{t.unemployment}</span><strong>{formatPct(unemployment)}</strong></div><div><span>{t.informal}</span><strong>{formatPct(informal)}</strong></div></div><div className="original-fixed"><span>{t.fixed}</span><strong>{Math.round(moneyUnits).toLocaleString(locale)} {t.hypothetical}</strong></div></>}
+  const { language, t: globalT } = useLanguage()
+  const t = originalStoryCopy(language)
+  const locale = language === 'es' ? 'es-CO' : 'en-US'
+
+  const [rows, setRows] = useState<Row[]>([])
+  const [year, setYear] = useState(2016)
+  const [anchor2016, setAnchor2016] = useState(1100)
+  const [anchor2026, setAnchor2026] = useState(3500)
+
+  const points = useMemo(() => scenario(rows, anchor2016, anchor2026), [rows, anchor2016, anchor2026])
+  const point = points.find((item) => item.year === year)
+
+  useEffect(() => {
+    fetch('/data/observations-v2.csv').then((r) => r.text()).then((text) => setRows(csvToObjects(text)))
+  }, [])
+
+  const moneyUnits = point ? 100000 / point.estimatedPrice : 0
+  const inflation = yearly(rows, 'inflation', year)
+  const unemployment = yearly(rows, 'unemployment_rate', year)
+  const informal = yearly(rows, 'informal_share', year)
+
+  const formatMoney = (v: number) => `$${Math.round(v).toLocaleString(locale)}`
+  const formatPct = (v: number | null) => v === null ? t.noData : `${v.toLocaleString(locale, { maximumFractionDigits: 2 })}%`
+
+  const yearIndex = year - MIN_YEAR
+  const step = t.steps[yearIndex]
+
+  return (
+    <section className="original-story" id="historia" aria-labelledby="original-story-title">
+
+      {/* ── Encabezado ───────────────────────────────────────── */}
+      <div className="original-shell original-story-heading">
+        <p className="original-eyebrow">{t.storyEyebrow}</p>
+        <h2 id="original-story-title">{t.storyTitle}</h2>
+        <p>{t.storyIntro}</p>
+        <aside className="original-warning"><strong>{t.warningTitle}</strong> {t.warning}</aside>
+        <aside className="original-warning context"><strong>{t.contextTitle}</strong> {t.context}</aside>
+        <p className="original-context-sources">{t.sources} <a href="https://ustr.gov/trade-agreements/free-trade-agreements/colombia-tpa">TLC Colombia–EE. UU.</a>, <a href="https://www.jep.gov.co/Marco%20Normativo/Normativa_v2/01%20ACUERDOS/N01.pdf">Acuerdo Final de Paz</a>, <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/cuentas-nacionales/cuentas-nacionales-trimestrales/historicos-producto-interno-bruto-pib">PIB del DANE</a>.</p>
       </div>
-      <div className="original-story-steps" aria-label="2011–2026">{t.steps.map((step,index)=>{const currentYear=2011+index; const president=currentYear===2018?t.steps[index][4]:currentYear===2022?t.steps[index][4]:step[4]; const image=currentYear<=2017?'/assets/president-santos.png':currentYear<=2021?'/assets/president-duque.png':currentYear===2022?'/assets/president-duque.png':'/assets/president-petro.png'; return <article key={currentYear} data-year={currentYear} ref={(element)=>{refs.current[index]=element}} className={`original-story-step ${year===currentYear?'is-active':''}`}><div className="original-step-copy"><span>{currentYear}</span><h3>{step[0]}</h3><p>{step[1]}</p><aside><span>{t.economicContext}</span><strong>{step[2]}</strong><p>{step[3]}</p></aside></div><figure><img src={image} alt={president} loading="lazy"/><figcaption>{president}</figcaption></figure></article>})}</div>
-    </div>
-    <div className="analysis-bridge"><p>{globalT.story.analysisEyebrow}</p><h2>{globalT.story.analysisTitle}</h2><span>{globalT.story.analysisBody}</span></div>
-  </section>
+
+      {/* ── Panel principal ──────────────────────────────────── */}
+      <div className="original-shell story-main-shell">
+        <div className="original-story-visual story-panel" aria-live="polite">
+
+          {/* Año + controles de ancla */}
+          <div className="original-story-top">
+            <div>
+              <p>{t.selected}</p>
+              <strong>{year}</strong>
+            </div>
+            <div className="original-price-controls">
+              <label>{t.anchor2016}<span><b>$</b><input aria-label={t.anchor2016} type="number" value={anchor2016} onChange={(e) => setAnchor2016(Number(e.target.value) || 1100)} /></span></label>
+              <label>{t.anchor2026}<span><b>$</b><input aria-label={t.anchor2026} type="number" value={anchor2026} onChange={(e) => setAnchor2026(Number(e.target.value) || 3500)} /></span></label>
+            </div>
+          </div>
+
+          {/* Selector de año */}
+          <div className="story-year-nav">
+            <button
+              className="story-year-btn"
+              onClick={() => setYear((y) => Math.max(MIN_YEAR, y - 1))}
+              disabled={year === MIN_YEAR}
+              aria-label={language === 'es' ? 'Año anterior' : 'Previous year'}
+            >‹</button>
+            <input
+              className="story-year-range"
+              type="range"
+              min={MIN_YEAR}
+              max={MAX_YEAR}
+              step={1}
+              value={year}
+              onChange={(e) => setYear(Number(e.target.value))}
+              aria-label={t.selected}
+            />
+            <button
+              className="story-year-btn"
+              onClick={() => setYear((y) => Math.min(MAX_YEAR, y + 1))}
+              disabled={year === MAX_YEAR}
+              aria-label={language === 'es' ? 'Año siguiente' : 'Next year'}
+            >›</button>
+          </div>
+
+          {/* Comparación: salario ↔ Chocorramos */}
+          {point && <>
+            <div className="original-comparison">
+              <div className="original-money-side">
+                <div><p>{t.salary}</p><strong>{formatMoney(point.salary)}</strong></div>
+                <MoneyStack salary={point.salary} locale={locale} />
+              </div>
+              <div className="original-equals">=</div>
+              <div className="original-choco-result">
+                <strong>{Math.round(point.units).toLocaleString(locale)}</strong>
+                <span>{t.units}</span>
+                <ChocoStack units={point.units} locale={locale} />
+                <p>{t.usedPrice} <strong>{formatMoney(point.estimatedPrice)}</strong> <small>{point.status === 'anchor' ? t.anchor : t.estimated}</small></p>
+              </div>
+            </div>
+            <div className="original-facts">
+              <div><span>{t.inflation}</span><strong>{formatPct(inflation)}</strong></div>
+              <div><span>{t.unemployment}</span><strong>{formatPct(unemployment)}</strong></div>
+              <div><span>{t.informal}</span><strong>{formatPct(informal)}</strong></div>
+            </div>
+            <div className="original-fixed">
+              <span>{t.fixed}</span><strong>{Math.round(moneyUnits).toLocaleString(locale)} {t.hypothetical}</strong>
+            </div>
+          </>}
+        </div>
+
+        {/* ── Contexto histórico del año seleccionado ──────── */}
+        {step && (
+          <div className="story-context-card">
+            <div className="story-context-header">
+              <span className="original-eyebrow">{t.economicContext} · {year}</span>
+              <p className="story-context-title">{step[0]}</p>
+            </div>
+            <p className="story-context-desc">{step[1]}</p>
+            <div className="story-context-econ">
+              <strong>{step[2]}</strong>
+              <p>{step[3]}</p>
+            </div>
+            <span className="story-context-president">{step[4]}</span>
+          </div>
+        )}
+      </div>
+
+      {/* ── Puente hacia análisis ────────────────────────────── */}
+      <div className="analysis-bridge">
+        <p>{globalT.story.analysisEyebrow}</p>
+        <h2>{globalT.story.analysisTitle}</h2>
+        <span>{globalT.story.analysisBody}</span>
+      </div>
+
+    </section>
+  )
 }
