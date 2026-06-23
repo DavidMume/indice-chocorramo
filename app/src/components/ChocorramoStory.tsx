@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
 import { originalStoryCopy } from '../i18n/originalStoryTranslations'
 
@@ -48,14 +48,14 @@ function ChocoStack({ units, locale }: { units: number; locale: string }) {
   return <div className="original-choco-stack" title={`≈ ${Math.round(units).toLocaleString(locale)}`}>{Array.from({length:visible},(_,index)=><img key={index} src="/assets/chocorramo-product-mini.png" alt="" loading="lazy" style={{'--x':`${(index*47+index*index*3)%255}px`,'--y':`${72-((index*19+index*index)%70)}px`,'--turn':`${((index*17)%25)-12}deg`,'--layer':index} as CSSProperties}/>)}</div>
 }
 
-const MIN_YEAR = 2011
-const MAX_YEAR = 2026
-
 function getPresidentImage(year: number): string {
   if (year <= 2017) return '/assets/president-santos.png'
   if (year <= 2022) return '/assets/president-duque.png'
   return '/assets/president-petro.png'
 }
+
+const MIN_YEAR = 2011
+const MAX_YEAR = 2026
 
 export default function ChocorramoStory() {
   const { language, t: globalT } = useLanguage()
@@ -67,12 +67,31 @@ export default function ChocorramoStory() {
   const [anchor2016, setAnchor2016] = useState(1100)
   const [anchor2026, setAnchor2026] = useState(3500)
 
+  // Refs for desktop scrollytelling — IntersectionObserver tracks which step is visible
+  const stepRefs = useRef<Array<HTMLElement | null>>([])
+
   const points = useMemo(() => scenario(rows, anchor2016, anchor2026), [rows, anchor2016, anchor2026])
   const point = points.find((item) => item.year === year)
 
   useEffect(() => {
     fetch('/data/observations-v2.csv').then((r) => r.text()).then((text) => setRows(csvToObjects(text)))
   }, [])
+
+  // IntersectionObserver drives `year` on desktop. Steps are display:none on mobile
+  // so the observer never fires from hidden elements.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (current) setYear(Number((current.target as HTMLElement).dataset.year))
+      },
+      { rootMargin: '-35% 0px -45% 0px', threshold: [0, 0.25, 0.6] }
+    )
+    stepRefs.current.forEach((step) => step && observer.observe(step))
+    return () => observer.disconnect()
+  }, [rows])
 
   const moneyUnits = point ? 100000 / point.estimatedPrice : 0
   const inflation = yearly(rows, 'inflation', year)
@@ -82,13 +101,12 @@ export default function ChocorramoStory() {
   const formatMoney = (v: number) => `$${Math.round(v).toLocaleString(locale)}`
   const formatPct = (v: number | null) => v === null ? t.noData : `${v.toLocaleString(locale, { maximumFractionDigits: 2 })}%`
 
-  const yearIndex = year - MIN_YEAR
-  const step = t.steps[yearIndex]
+  const step = t.steps[year - MIN_YEAR]
 
   return (
     <section className="original-story" id="historia" aria-labelledby="original-story-title">
 
-      {/* ── Encabezado ───────────────────────────────────────── */}
+      {/* ── Encabezado compartido ────────────────────────────── */}
       <div className="original-shell original-story-heading">
         <p className="original-eyebrow">{t.storyEyebrow}</p>
         <h2 id="original-story-title">{t.storyTitle}</h2>
@@ -98,8 +116,11 @@ export default function ChocorramoStory() {
         <p className="original-context-sources">{t.sources} <a href="https://ustr.gov/trade-agreements/free-trade-agreements/colombia-tpa">TLC Colombia–EE. UU.</a>, <a href="https://www.jep.gov.co/Marco%20Normativo/Normativa_v2/01%20ACUERDOS/N01.pdf">Acuerdo Final de Paz</a>, <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/cuentas-nacionales/cuentas-nacionales-trimestrales/historicos-producto-interno-bruto-pib">PIB del DANE</a>.</p>
       </div>
 
-      {/* ── Panel principal ──────────────────────────────────── */}
-      <div className="original-shell story-main-shell">
+      {/* ═══════════════════════════════════════════════════════
+          MÓVIL (≤760px) — slider + tarjeta de contexto
+          Oculto en desktop con display:none via CSS
+          ═══════════════════════════════════════════════════════ */}
+      <div className="original-shell story-main-shell story-mobile-only">
         <div className="original-story-visual story-panel" aria-live="polite">
 
           {/* Año + controles de ancla */}
@@ -114,7 +135,7 @@ export default function ChocorramoStory() {
             </div>
           </div>
 
-          {/* Selector de año */}
+          {/* Selector de año con slider */}
           <div className="story-year-nav">
             <button
               className="story-year-btn"
@@ -166,20 +187,13 @@ export default function ChocorramoStory() {
           </>}
         </div>
 
-        {/* ── Contexto histórico del año seleccionado ──────── */}
+        {/* Contexto histórico del año seleccionado */}
         {step && (
           <div className="story-context-card">
             <div className="story-context-inner">
-              {/* President portrait — decorative, no-bg PNG */}
               <div className="story-president-img" aria-hidden="true">
-                <img
-                  src={getPresidentImage(year)}
-                  alt={step[4]}
-                  className="story-president-photo"
-                  loading="lazy"
-                />
+                <img src={getPresidentImage(year)} alt={step[4]} className="story-president-photo" loading="lazy" />
               </div>
-              {/* Context text */}
               <div className="story-context-body">
                 <div className="story-context-header">
                   <span className="original-eyebrow">{t.economicContext} · {year}</span>
@@ -195,6 +209,82 @@ export default function ChocorramoStory() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════
+          DESKTOP (>760px) — scrollytelling con IntersectionObserver
+          Panel sticky a la izquierda + steps narrativos a la derecha
+          Oculto en móvil con display:none via CSS
+          ═══════════════════════════════════════════════════════ */}
+      <div className="original-story-layout original-shell story-desktop-only">
+
+        {/* Columna izquierda: panel visual sticky */}
+        <div className="original-story-visual" aria-live="polite">
+          <div className="original-story-top">
+            <div>
+              <p>{t.selected}</p>
+              <strong>{year}</strong>
+            </div>
+            <div className="original-price-controls">
+              <label>{t.anchor2016}<span><b>$</b><input aria-label={t.anchor2016} type="number" value={anchor2016} onChange={(e) => setAnchor2016(Number(e.target.value) || 1100)} /></span></label>
+              <label>{t.anchor2026}<span><b>$</b><input aria-label={t.anchor2026} type="number" value={anchor2026} onChange={(e) => setAnchor2026(Number(e.target.value) || 3500)} /></span></label>
+            </div>
+          </div>
+
+          {point && <>
+            <div className="original-comparison">
+              <div className="original-money-side">
+                <div><p>{t.salary}</p><strong>{formatMoney(point.salary)}</strong></div>
+                <MoneyStack salary={point.salary} locale={locale} />
+              </div>
+              <div className="original-equals">=</div>
+              <div className="original-choco-result">
+                <strong>{Math.round(point.units).toLocaleString(locale)}</strong>
+                <span>{t.units}</span>
+                <ChocoStack units={point.units} locale={locale} />
+                <p>{t.usedPrice} <strong>{formatMoney(point.estimatedPrice)}</strong> <small>{point.status === 'anchor' ? t.anchor : t.estimated}</small></p>
+              </div>
+            </div>
+            <div className="original-facts">
+              <div><span>{t.inflation}</span><strong>{formatPct(inflation)}</strong></div>
+              <div><span>{t.unemployment}</span><strong>{formatPct(unemployment)}</strong></div>
+              <div><span>{t.informal}</span><strong>{formatPct(informal)}</strong></div>
+            </div>
+            <div className="original-fixed">
+              <span>{t.fixed}</span><strong>{Math.round(moneyUnits).toLocaleString(locale)} {t.hypothetical}</strong>
+            </div>
+          </>}
+        </div>
+
+        {/* Columna derecha: steps narrativos (scroll activa el año) */}
+        <div className="original-story-steps" aria-label="2011–2026">
+          {t.steps.map((s, index) => {
+            const currentYear = MIN_YEAR + index
+            return (
+              <article
+                key={currentYear}
+                data-year={currentYear}
+                ref={(el) => { stepRefs.current[index] = el }}
+                className={`original-story-step${year === currentYear ? ' is-active' : ''}`}
+              >
+                <div className="original-step-copy">
+                  <span>{currentYear}</span>
+                  <h3>{s[0]}</h3>
+                  <p>{s[1]}</p>
+                  <aside>
+                    <span>{t.economicContext}</span>
+                    <strong>{s[2]}</strong>
+                    <p>{s[3]}</p>
+                  </aside>
+                </div>
+                <figure>
+                  <img src={getPresidentImage(currentYear)} alt={s[4]} loading="lazy" />
+                  <figcaption>{s[4]}</figcaption>
+                </figure>
+              </article>
+            )
+          })}
+        </div>
       </div>
 
       {/* ── Puente hacia análisis ────────────────────────────── */}
